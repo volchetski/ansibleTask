@@ -1,0 +1,21 @@
+---
+- name: Deploy 
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Create directory
+      file:
+        path: /opt/myapp
+        state: directory
+
+    - name: Copy docker-compose
+      copy:
+        src: ./docker-compose.yml
+        dest: /opt/myapp/docker-compose.yml
+
+    - name: Start docker-compose
+      command: docker-compose up --build -d
+      args:
+        chdir: /opt/myapp
+
